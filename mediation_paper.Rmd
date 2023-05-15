@@ -27,6 +27,7 @@ library(medflex)
 df<-readRDS("mediationdf.rds")
 
 
+#knit(input="mediation_paper.rmd", output = "readme.md") 
 ```
 
 # T4DM data structure
