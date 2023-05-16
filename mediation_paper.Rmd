@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-```{r setup, include=TRUE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   comment = "#>",
@@ -11,15 +11,9 @@ knitr::opts_chunk$set(
 ## read in packages
 
 library(knitr)
-library(officedown)
-library(officer)
 library(gtsummary)
 library(flextable)
 library(tidyverse)
-library(janitor)
-library(haven)
-library(labelled)
-library(glue)
 library(cowplot)
 library(medflex)
 
@@ -33,8 +27,29 @@ df<-readRDS("mediationdf.rds")
 
 This is the code that performs the analyses in the paper published here (insert link when known). 
 
+The following packages are used:
+
+```{r, eval=FALSE}
+
+library(knitr)
+library(gtsummary)
+library(flextable)
+library(tidyverse)
+library(cowplot)
+library(medflex)
+
+
+```
 
 # T4DM data structure
+
+Here is the dataset used in these analyses. This trial data is not publicly available, but available upon request. 
+
+```{r, eval=FALSE}
+## dataset of all variables used in paper
+df<-readRDS("mediationdf.rds")
+```
+
 
 ## Outcomes at two years
 
@@ -76,7 +91,7 @@ plus
 - `e2_change`: change in E2
 - `shbg_change`: change in SHBG
 
-So, the dataset looks like so, using the first 2 patients as an example:
+So, the dataset looks like so:
 
 ```{r}
 df %>%
@@ -360,7 +375,7 @@ plot_grid(plot.a2, plot.b2,
 
 # Table 1:  Treatment mediation: estimates of effects from models of 2-hour glucose ≥ 11.1mmol/L and change in OGTT at two years
 
-```{r, include=FALSE}
+```{r}
 
 allcat <- glm(ogtt_gt11 ~ogtt_base+treatment+ 
                 bmleanms_base+leanmass_change+ 
@@ -399,6 +414,7 @@ table1<-tbl_merge(list(allcat, allcont),
 # Had to manually save images, not sure if better way.
 gt::gtsave(as_gt(table1), file = "figure/README-tbl1.png")
 ```
+
 ```{r out.width = "100%", echo = FALSE}
 knitr::include_graphics("figure/README-tbl1.png")
 ```

@@ -3,39 +3,32 @@ output: github_document
 ---
 
 
-```r
-knitr::opts_chunk$set(
-  echo = TRUE,
-  comment = "#>",
-  out.width = "100%")
-
-## read in packages
-
-library(knitr)
-library(officedown)
-library(officer)
-library(gtsummary)
-library(flextable)
-library(tidyverse)
-library(janitor)
-library(haven)
-library(labelled)
-library(glue)
-library(cowplot)
-library(medflex)
-
-## dataset of all variables used in paper
-df<-readRDS("mediationdf.rds")
-
-
-#knit(input="mediation_paper.rmd", output = "readme.md") 
-```
 # T4DM mediation analyses
 
 This is the code that performs the analyses in the paper published here (insert link when known). 
 
+The following packages are used:
+
+
+```r
+library(knitr)
+library(gtsummary)
+library(flextable)
+library(tidyverse)
+library(cowplot)
+library(medflex)
+```
 
 # T4DM data structure
+
+Here is the dataset used in these analyses. This trial data is not publicly available, but available upon request. 
+
+
+```r
+## dataset of all variables used in paper
+df<-readRDS("mediationdf.rds")
+```
+
 
 ## Outcomes at two years
 
@@ -77,7 +70,7 @@ plus
 - `e2_change`: change in E2
 - `shbg_change`: change in SHBG
 
-So, the dataset looks like so, using the first 2 patients as an example:
+So, the dataset looks like so:
 
 
 ```r
@@ -246,7 +239,7 @@ plot_grid(plot.a, plot.b,
           rel_widths = c(1.1,0.6))
 ```
 
-<img src="figure/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" width="100%" />
+<img src="figure/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4" width="100%" />
 
 
 # Mediation analyses
@@ -392,11 +385,45 @@ plot_grid(plot.a2, plot.b2,
           rel_widths = c(1.1,0.8))
 ```
 
-<img src="figure/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" width="100%" />
+<img src="figure/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7" width="100%" />
 
 # Table 1:  Treatment mediation: estimates of effects from models of 2-hour glucose ≥ 11.1mmol/L and change in OGTT at two years
 
 
+```r
+allcat <- glm(ogtt_gt11 ~ogtt_base+treatment+ 
+                bmleanms_base+leanmass_change+ 
+                bmfatms_base+ fatmass_change+
+                bmapfm_base+ abdomfat_change+ 
+                grip_base+ grip_change+
+                e2_base+e2_change+shbg_base+ shbg_change+
+                siteid+ waist_gp+  age_ge60+dm_hist+ ssri_base+t_gp+smoker,
+              data=df,
+              family = binomial(link="logit")) %>%
+  tbl_regression(exponentiate = TRUE,
+                 show_single_row="treatment", 
+                 include = c("treatment", contains("change"))) 
+
+allcont<-glm(change_ogtt ~ogtt_base+treatment+ 
+               bmleanms_base+leanmass_change+ 
+               bmfatms_base+ fatmass_change+
+               bmapfm_base+ abdomfat_change+ 
+               grip_base+ grip_change+
+               e2_base+e2_change+shbg_base+ shbg_change+
+               siteid+ waist_gp+  age_ge60+dm_hist+ ssri_base+t_gp+smoker, 
+             data=df) %>%
+  tbl_regression(show_single_row="treatment", 
+                 include = c(treatment, contains("change"))) 
+
+table1<-tbl_merge(list(allcat, allcont), 
+          tab_spanner = c("2hr glucose \U2265 11.1", "2hr glucose change from baseline"))  %>%
+  modify_header(estimate_2 = "**Mean change**") %>%
+  modify_footnote(c(estimate_1, estimate_2) ~ 
+                    "Models are adjusted for all baseline covariates (baseline risk factors and baseline mediators)") %>%
+  modify_footnote(c(estimate_2) ~ 
+                    "Change is calculated as two years minus baseline, with positive values indicating increases from baseline and negative as decreases from baseline. ")
+```
 
 
-<img src="figure/README-tbl1.png" alt="plot of chunk unnamed-chunk-8" width="100%" />
+
+<img src="figure/README-tbl1.png" alt="plot of chunk unnamed-chunk-10" width="100%" />
