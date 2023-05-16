@@ -76,8 +76,7 @@ So, the dataset looks like so, using the first 2 patients as an example:
 
 ```{r}
 df %>%
-  head(n=2) %>%
-  flextable()
+  head(n=2) 
 ```
 
 # Figure 2: unadjusted and adjusted analyses
@@ -389,7 +388,6 @@ tbl_merge(list(allcat, allcont),
   modify_footnote(c(estimate_1, estimate_2) ~ 
                     "Models are adjusted for all baseline covariates (baseline risk factors and baseline mediators)") %>%
   modify_footnote(c(estimate_2) ~ 
-                    "Change is calculated as two years minus baseline, with positive values indicating increases from baseline and negative as decreases from baseline. ") %>%
-  as_flex_table()
+                    "Change is calculated as two years minus baseline, with positive values indicating increases from baseline and negative as decreases from baseline. ")
 ```
 
