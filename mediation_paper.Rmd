@@ -399,6 +399,6 @@ table1<-tbl_merge(list(allcat, allcont),
 # Had to manually save images, not sure if better way.
 gt::gtsave(as_gt(table1), file = "figure/README-tbl1.png")
 ```
-```{r out.width = "25%", echo = FALSE}
+```{r out.width = "100%", echo = FALSE}
 knitr::include_graphics("figure/README-tbl1.png")
 ```

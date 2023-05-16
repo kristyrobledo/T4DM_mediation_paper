@@ -399,4 +399,4 @@ plot_grid(plot.a2, plot.b2,
 
 
 
-<img src="figure/README-tbl1.png" alt="plot of chunk unnamed-chunk-8" width="25%" />
+<img src="figure/README-tbl1.png" alt="plot of chunk unnamed-chunk-8" width="100%" />
