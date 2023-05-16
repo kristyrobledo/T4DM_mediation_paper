@@ -2,7 +2,12 @@
 title: "T4DM_mediation_paper"
 author: "Kristy Robledo"
 date: "2023-05-16"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    self_contained: true
+  github_document:
+    toc: true
 ---
 
 
@@ -78,11 +83,36 @@ So, the dataset looks like so, using the first 2 patients as an example:
 
 ```r
 df %>%
-  head(n=2) 
+  glimpse()
 ```
 
 ```
-## Error in if (grepl("docx", opts_knit$get("rmarkdown.pandoc.to"))) {: argument is of length zero
+## Rows: 709
+## Columns: 24
+## $ siteid          [3m[38;5;246m<fct>[39m[23m 61219, 61219, 61219, 61512, 61512, 61512, 61219, 61512, 61617, 61512, 61617, 61617, 615~
+## $ waist_gp        [3m[38;5;246m<fct>[39m[23m 3, 3, 3, 3, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 3, 2, 3, 1, 2, 2, 3, 2, 2, 3, 3, 2, 3, 2, ~
+## $ age_ge60        [3m[38;5;246m<fct>[39m[23m 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, ~
+## $ dm_hist         [3m[38;5;246m<fct>[39m[23m 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, ~
+## $ ssri_base       [3m[38;5;246m<fct>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ~
+## $ t_gp            [3m[38;5;246m<fct>[39m[23m 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 2, 3, 2, 2, 3, 3, ~
+## $ smoker          [3m[38;5;246m<fct>[39m[23m 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ~
+## $ ogtt_gt11       [3m[38;5;246m<dbl>[39m[23m 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ~
+## $ ogtt_base       [3m[38;5;246m<dbl>[39m[23m 8.8, 10.8, 8.9, 9.9, 9.2, 8.1, 9.4, 8.2, 8.4, 8.8, 8.9, 7.8, 8.0, 8.5, 10.5, 8.6, 7.9, ~
+## $ treat           [3m[38;5;246m<dbl>[39m[23m 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, ~
+## $ bmleanms_base   [3m[38;5;246m<dbl>[39m[23m 61760, 69431, 61898, 71298, 62130, 66217, 60528, 53883, 76806, 56635, 70712, 75360, 544~
+## $ leanmass_change [3m[38;5;246m<dbl>[39m[23m 0.992, 1.926, 3.900, -4.202, 1.022, -4.930, -2.198, 2.229, 0.700, -1.822, 2.081, 0.196,~
+## $ bmfatms_base    [3m[38;5;246m<dbl>[39m[23m 36217, 44372, 32206, 35049, 39414, 37077, 35298, 27032, 31198, 40041, 36188, 41185, 394~
+## $ fatmass_change  [3m[38;5;246m<dbl>[39m[23m -3.181, -2.434, -2.990, -9.819, -10.038, -9.755, 0.559, -5.975, 2.158, -8.293, -2.361, ~
+## $ bmapfm_base     [3m[38;5;246m<dbl>[39m[23m 46.0, 47.5, 41.0, 41.3, 49.8, 45.9, 44.3, 44.8, 36.0, 52.2, 42.2, 43.4, 54.4, 44.5, 39.~
+## $ abdomfat_change [3m[38;5;246m<dbl>[39m[23m -2.3, -2.9, -1.3, -10.6, -8.2, -8.2, -1.1, -5.4, 1.0, -4.1, -0.2, -4.4, 1.7, 2.4, -2.6,~
+## $ grip_base       [3m[38;5;246m<dbl>[39m[23m 39, 45, 52, 40, 36, 34, 41, 35, 37, 22, 68, 58, 25, 45, 45, 26, 45, 43, 49, 40, 36, 51,~
+## $ grip_change     [3m[38;5;246m<dbl>[39m[23m -1.0, 0.0, 6.0, 1.0, 10.0, -0.7, 2.0, 1.0, 18.0, 6.0, -23.0, -4.0, 7.6, 2.0, 7.0, 13.0,~
+## $ e2_base         [3m[38;5;246m<dbl>[39m[23m 210.864, 249.136, 141.312, 226.320, 379.040, 290.352, 160.448, 137.264, 178.848, 184.73~
+## $ e2_change       [3m[38;5;246m<dbl>[39m[23m 49.3120, 68.0800, 177.7440, -105.6160, -135.4240, 50.7840, 277.4720, 128.8000, 7.3600, ~
+## $ shbg_base       [3m[38;5;246m<dbl>[39m[23m 57.72, 46.25, 33.86, 34.70, 29.82, 49.53, 28.81, 36.96, 42.38, 66.24, 43.78, 20.11, 45.~
+## $ shbg_change     [3m[38;5;246m<dbl>[39m[23m 5.62, -2.81, -11.53, 5.00, 18.45, 36.41, 16.69, 11.71, 2.03, 23.57, -0.12, -1.33, -3.50~
+## $ change_ogtt     [3m[38;5;246m<dbl>[39m[23m -1.2, -1.6, -2.3, -3.5, -2.9, -2.0, -0.3, -1.3, 1.8, 0.0, -0.3, 0.1, -0.2, 2.2, 1.0, 1.~
+## $ treatment       [3m[38;5;246m<chr>[39m[23m "Testosterone", "Placebo", "Testosterone", "Testosterone", "Testosterone", "Placebo", "~
 ```
 
 # Figure 2: unadjusted and adjusted analyses
@@ -402,12 +432,12 @@ tbl_merge(list(allcat, allcont),
                     "Change is calculated as two years minus baseline, with positive values indicating increases from baseline and negative as decreases from baseline. ")
 ```
 
-<!--html_preserve--><div id="nsvuxxouhz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<!--html_preserve--><div id="ghonsbethz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#nsvuxxouhz .gt_table {
+#ghonsbethz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -432,7 +462,7 @@ tbl_merge(list(allcat, allcont),
   border-left-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_heading {
+#ghonsbethz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -444,12 +474,12 @@ tbl_merge(list(allcat, allcont),
   border-right-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_caption {
+#ghonsbethz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nsvuxxouhz .gt_title {
+#ghonsbethz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -461,7 +491,7 @@ tbl_merge(list(allcat, allcont),
   border-bottom-width: 0;
 }
 
-#nsvuxxouhz .gt_subtitle {
+#ghonsbethz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -473,13 +503,13 @@ tbl_merge(list(allcat, allcont),
   border-top-width: 0;
 }
 
-#nsvuxxouhz .gt_bottom_border {
+#ghonsbethz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_col_headings {
+#ghonsbethz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -494,7 +524,7 @@ tbl_merge(list(allcat, allcont),
   border-right-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_col_heading {
+#ghonsbethz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -514,7 +544,7 @@ tbl_merge(list(allcat, allcont),
   overflow-x: hidden;
 }
 
-#nsvuxxouhz .gt_column_spanner_outer {
+#ghonsbethz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -526,15 +556,15 @@ tbl_merge(list(allcat, allcont),
   padding-right: 4px;
 }
 
-#nsvuxxouhz .gt_column_spanner_outer:first-child {
+#ghonsbethz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nsvuxxouhz .gt_column_spanner_outer:last-child {
+#ghonsbethz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nsvuxxouhz .gt_column_spanner {
+#ghonsbethz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -546,7 +576,7 @@ tbl_merge(list(allcat, allcont),
   width: 100%;
 }
 
-#nsvuxxouhz .gt_group_heading {
+#ghonsbethz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -572,7 +602,7 @@ tbl_merge(list(allcat, allcont),
   text-align: left;
 }
 
-#nsvuxxouhz .gt_empty_group_heading {
+#ghonsbethz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -587,15 +617,15 @@ tbl_merge(list(allcat, allcont),
   vertical-align: middle;
 }
 
-#nsvuxxouhz .gt_from_md > :first-child {
+#ghonsbethz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nsvuxxouhz .gt_from_md > :last-child {
+#ghonsbethz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nsvuxxouhz .gt_row {
+#ghonsbethz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -614,7 +644,7 @@ tbl_merge(list(allcat, allcont),
   overflow-x: hidden;
 }
 
-#nsvuxxouhz .gt_stub {
+#ghonsbethz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -627,7 +657,7 @@ tbl_merge(list(allcat, allcont),
   padding-right: 5px;
 }
 
-#nsvuxxouhz .gt_stub_row_group {
+#ghonsbethz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -641,11 +671,11 @@ tbl_merge(list(allcat, allcont),
   vertical-align: top;
 }
 
-#nsvuxxouhz .gt_row_group_first td {
+#ghonsbethz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nsvuxxouhz .gt_summary_row {
+#ghonsbethz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -655,16 +685,16 @@ tbl_merge(list(allcat, allcont),
   padding-right: 5px;
 }
 
-#nsvuxxouhz .gt_first_summary_row {
+#ghonsbethz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_first_summary_row.thick {
+#ghonsbethz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nsvuxxouhz .gt_last_summary_row {
+#ghonsbethz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -674,7 +704,7 @@ tbl_merge(list(allcat, allcont),
   border-bottom-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_grand_summary_row {
+#ghonsbethz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -684,7 +714,7 @@ tbl_merge(list(allcat, allcont),
   padding-right: 5px;
 }
 
-#nsvuxxouhz .gt_first_grand_summary_row {
+#ghonsbethz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -694,11 +724,11 @@ tbl_merge(list(allcat, allcont),
   border-top-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_striped {
+#ghonsbethz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nsvuxxouhz .gt_table_body {
+#ghonsbethz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -707,7 +737,7 @@ tbl_merge(list(allcat, allcont),
   border-bottom-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_footnotes {
+#ghonsbethz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -721,7 +751,7 @@ tbl_merge(list(allcat, allcont),
   border-right-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_footnote {
+#ghonsbethz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -730,7 +760,7 @@ tbl_merge(list(allcat, allcont),
   padding-right: 5px;
 }
 
-#nsvuxxouhz .gt_sourcenotes {
+#ghonsbethz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -744,7 +774,7 @@ tbl_merge(list(allcat, allcont),
   border-right-color: #D3D3D3;
 }
 
-#nsvuxxouhz .gt_sourcenote {
+#ghonsbethz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -752,64 +782,64 @@ tbl_merge(list(allcat, allcont),
   padding-right: 5px;
 }
 
-#nsvuxxouhz .gt_left {
+#ghonsbethz .gt_left {
   text-align: left;
 }
 
-#nsvuxxouhz .gt_center {
+#ghonsbethz .gt_center {
   text-align: center;
 }
 
-#nsvuxxouhz .gt_right {
+#ghonsbethz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nsvuxxouhz .gt_font_normal {
+#ghonsbethz .gt_font_normal {
   font-weight: normal;
 }
 
-#nsvuxxouhz .gt_font_bold {
+#ghonsbethz .gt_font_bold {
   font-weight: bold;
 }
 
-#nsvuxxouhz .gt_font_italic {
+#ghonsbethz .gt_font_italic {
   font-style: italic;
 }
 
-#nsvuxxouhz .gt_super {
+#ghonsbethz .gt_super {
   font-size: 65%;
 }
 
-#nsvuxxouhz .gt_footnote_marks {
+#ghonsbethz .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#nsvuxxouhz .gt_asterisk {
+#ghonsbethz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nsvuxxouhz .gt_indent_1 {
+#ghonsbethz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nsvuxxouhz .gt_indent_2 {
+#ghonsbethz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nsvuxxouhz .gt_indent_3 {
+#ghonsbethz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nsvuxxouhz .gt_indent_4 {
+#ghonsbethz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nsvuxxouhz .gt_indent_5 {
+#ghonsbethz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
