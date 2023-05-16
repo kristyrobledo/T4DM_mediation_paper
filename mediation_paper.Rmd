@@ -1,17 +1,12 @@
 ---
-title: "T4DM_mediation_paper"
-author: "Kristy Robledo"
-date: "`r Sys.Date()`"
-output: 
-  html_document:
-    toc: true
-    self_contained: true
-  github_document:
-    toc: true
+output: github_document
 ---
 
 ```{r setup, include=TRUE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  comment = "#>",
+  out.width = "100%")
 
 ## read in packages
 
@@ -34,6 +29,10 @@ df<-readRDS("mediationdf.rds")
 
 #knit(input="mediation_paper.rmd", output = "readme.md") 
 ```
+# T4DM mediation analyses
+
+This is the code that performs the analyses in the paper published here (insert link when known). 
+
 
 # T4DM data structure
 
@@ -361,7 +360,7 @@ plot_grid(plot.a2, plot.b2,
 
 # Table 1:  Treatment mediation: estimates of effects from models of 2-hour glucose ≥ 11.1mmol/L and change in OGTT at two years
 
-```{r}
+```{r, include=FALSE}
 
 allcat <- glm(ogtt_gt11 ~ogtt_base+treatment+ 
                 bmleanms_base+leanmass_change+ 
@@ -387,7 +386,7 @@ allcont<-glm(change_ogtt ~ogtt_base+treatment+
   tbl_regression(show_single_row="treatment", 
                  include = c(treatment, contains("change"))) 
 
-tbl_merge(list(allcat, allcont), 
+table1<-tbl_merge(list(allcat, allcont), 
           tab_spanner = c("2hr glucose \U2265 11.1", "2hr glucose change from baseline"))  %>%
   modify_header(estimate_2 = "**Mean change**") %>%
   modify_footnote(c(estimate_1, estimate_2) ~ 
@@ -396,3 +395,10 @@ tbl_merge(list(allcat, allcont),
                     "Change is calculated as two years minus baseline, with positive values indicating increases from baseline and negative as decreases from baseline. ")
 ```
 
+```{r, include=FALSE}
+# Had to manually save images, not sure if better way.
+gt::gtsave(as_gt(table1), file = "figure/README-tbl1.png")
+```
+```{r out.width = "25%", echo = FALSE}
+knitr::include_graphics("figure/README-tbl1.png")
+```
